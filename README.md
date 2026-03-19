@@ -64,7 +64,7 @@ The `.env` file is pre-configured. To customise:
 
 ```env
 PORT=5000
-MONGO_URI=mongodb+srv://asics:asics@cluster0.1vupymj.mongodb.net/registrations_db?appName=Cluster0
+MONGO_URI=mongodb://
 NODE_ENV=development
 ```
 
