@@ -9,6 +9,14 @@ const errorHandler       = require('./middleware/errorHandler');
 
 const app = express();
 
+// ─── Trust Render.com's Proxy ─────────────────────────────────────────────────
+// Render.com (and most cloud platforms) sit behind a reverse proxy that injects
+// the X-Forwarded-For header. Setting trust proxy = 1 tells Express to trust
+// the first hop, which fixes:
+//   1. express-rate-limit ERR_ERL_UNEXPECTED_X_FORWARDED_FOR validation error
+//   2. Rate limiting now works per-device IP instead of all devices sharing one counter
+app.set('trust proxy', 1);
+
 // ─── Security Headers ─────────────────────────────────────────────────────────
 app.use(helmet());
 
@@ -26,7 +34,7 @@ app.use(
 // ─── Rate Limiting ────────────────────────────────────────────────────────────
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 200,                  // max 200 requests per window per IP
+  max: 500,                  // 500 requests per window per device IP (kiosk event traffic)
   standardHeaders: true,
   legacyHeaders: false,
   message: {

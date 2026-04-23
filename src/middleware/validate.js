@@ -31,8 +31,8 @@ const registrationValidationRules = [
     .trim()
     .notEmpty()
     .withMessage('Date of birth is required')
-    .matches(/^\d{2}\/\d{2}\/\d{4}$/)
-    .withMessage('Date of birth must be in DD/MM/YYYY format'),
+    .matches(/^\d{4}-\d{2}-\d{2}$/)
+    .withMessage('Date of birth must be in YYYY-MM-DD format'),
 
   body('phone')
     .trim()
