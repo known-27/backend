@@ -38,16 +38,17 @@ const registrationValidationRules = [
     .trim()
     .notEmpty()
     .withMessage('Phone number is required')
-    .matches(/^[+\d\s\-().]{7,20}$/)
-    .withMessage('Please provide a valid phone number'),
+    .matches(/^\d{10}$/)
+    .withMessage('Phone must be exactly 10 digits (matches Android validation)'),
 
   body('email')
     .trim()
     .notEmpty()
     .withMessage('Email address is required')
     .isEmail()
-    .withMessage('Please provide a valid email address')
-    .normalizeEmail(),
+    .withMessage('Please provide a valid email address'),
+    // NOTE: .normalizeEmail() intentionally removed — it mutates emails (strips Gmail dots)
+    // which creates mismatches between the Android app and the server-side duplicate check.
 
   body('currentRunningBrand')
     .trim()
